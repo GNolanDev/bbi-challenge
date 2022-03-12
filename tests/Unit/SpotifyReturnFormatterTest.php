@@ -10,7 +10,8 @@ class SpotifyReturnFormatterTest extends TestCase
 {
     /**
      * given a valid JSON string, returns JSON with only required properties
-     * (artist_name, duration_ms, track_name)
+     * (artist_name, duration_ms, track_name) ready for responding to client 
+     * request
      *
      * @return void
      */

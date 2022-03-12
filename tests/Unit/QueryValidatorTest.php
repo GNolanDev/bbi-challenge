@@ -9,7 +9,9 @@ require(dirname(__DIR__, 2) . "\app\Helpers\QueryValidator.php");
 class QueryValidatorTest extends TestCase
 {
     /**
-     * given a valid query string, the same string is returned
+     * given a valid query string from the client, the same string is returned
+     * ready for sending on to Spotify API - only used currently to limit the 
+     * max length of a query string
      *
      * @return void
      */

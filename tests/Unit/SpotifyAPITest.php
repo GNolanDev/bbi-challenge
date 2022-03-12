@@ -10,7 +10,8 @@ class SpotifyAPITest extends TestCase
 {
     /**
      * given a valid query string, a well formed JSON response is returned
-     * with at least one artist name, track name and duration
+     * from the Spotify API, with at least one artist name, track name and
+     * duration
      *
      * @return void
      */
