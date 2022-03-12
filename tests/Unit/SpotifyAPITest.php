@@ -19,12 +19,13 @@ class SpotifyAPITest extends TestCase
         $spotifyAPI = new \SpotifyAPI;
         $inputString = "Help!";
         $outputJSON = $spotifyAPI->get($inputString);
+        $outputDecoded = json_decode($outputJSON, true);
         $this->assertTrue(
-            $outputJSON &&
+            $outputDecoded &&
                 isset(
-                    $outputJSON['tracks']['items']['0']['artists']['0']['name'],
-                    $outputJSON['tracks']['items']['0']['duration_ms'],
-                    $outputJSON['tracks']['items']['0']['name']
+                    $outputDecoded['tracks']['items']['0']['artists']['0']['name'],
+                    $outputDecoded['tracks']['items']['0']['duration_ms'],
+                    $outputDecoded['tracks']['items']['0']['name']
                 )
         );
     }
