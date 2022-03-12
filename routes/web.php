@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+
+/* fallback option for any unrecognised URLs or direct navigation to routes normally handled by the front end */
+Route::fallback(function () {
+    return view('home');
+});
