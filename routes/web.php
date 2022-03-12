@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('home');
 });
 
+/* test page for checking basic serving of html */
+Route::get('/testpage', function () {
+    return view('testpage');
+});
+
 /* fallback option for any unrecognised URLs or direct navigation to routes normally handled by the front end */
 Route::fallback(function () {
     return view('home');
