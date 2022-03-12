@@ -6,16 +6,18 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class SubmitButtonVisibleTest extends DuskTestCase
+class EmptyListVisibleTest extends DuskTestCase
 {
     /**
+     * Check that a list container is present but empty on page load
+     * 
      * @return void
      */
-    public function testSubmitButtonVisible()
+    public function testEmptyListVisible()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertVisible('@submit-search');
+                ->assertSeeNothingIn('#results-container');
         });
     }
 }

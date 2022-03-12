@@ -14,7 +14,7 @@ class TextInputVisibleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->assertVisible('input#query-text');
+                ->assertVisible('@query-text');
         });
     }
 }
