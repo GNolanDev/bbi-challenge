@@ -20,4 +20,21 @@ class QueryValidatorTest extends TestCase
         $outputString = $queryValidator->validate($inputString);
         $this->assertEquals($inputString, $outputString);
     }
+
+    /**
+     * given an invalid query string, false is returned
+     *
+     * @return void
+     */
+    public function test_given_invalid_query_false_returned()
+    {
+        $queryValidator = new \QueryValidator;
+        $inputString = "";
+        // make string 201 characters long
+        for ($i = 0; $i <= 200; $i++) {
+            $inputString .= "A";
+        }
+        $outputString = $queryValidator->validate($inputString);
+        $this->assertFalse($outputString);
+    }
 }
