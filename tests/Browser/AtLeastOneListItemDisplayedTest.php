@@ -9,6 +9,7 @@ use Tests\DuskTestCase;
 class AtLeastOneListItemDisplayedTest extends DuskTestCase
 {
     /**
+     * Note - requires Front AND Back end functionality
      * Check that at least one list item is present in the list 
      * container after submitting a valid search term
      * 

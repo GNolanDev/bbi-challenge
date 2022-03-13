@@ -9,6 +9,7 @@ use Tests\DuskTestCase;
 class AtLeastOneTrackNameDisplayedTest extends DuskTestCase
 {
     /**
+     * Note - requires Front AND Back end functionality
      * Check that at least one track name is present in the list 
      * container after submitting a valid search term
      * 
