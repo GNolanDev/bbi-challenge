@@ -16,18 +16,35 @@ class SpotifyAPI
      */
     public function getTracks($query)
     {
-        $bearerToken = config('services.spotify.bearertoken');
+        //URLs
         $spotifyBaseURL =
             "https://api.spotify.com/v1/";
+        $spotifyAuthURL =
+            "https://accounts.spotify.com/api/token";
         $type = 'track';
+        // required data for spotfy authorisation endpoint
+        $data = [
+            'grant_type' => 'client_credentials'
+        ];
+
+        // get access token from account.spotify
+        $clientId = config('services.spotify.clientid');
+        $clientSecret = config('services.spotify.clientsecret');
+        $accessResponse = Http::asForm()->withBasicAuth($clientId, $clientSecret)->withOptions([
+            'verify' => base_path('cacert.pem'),
+        ])->post($spotifyAuthURL, $data);
+        $bearerToken = json_decode($accessResponse)->access_token;
+
+        // use access token to access Spotify search API
         // prepare and send a http request using Http Client
         // could use ::withToken here ?
+        if (!$bearerToken) return false;
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $bearerToken,
             'Content-Type' => 'application/json'
         ])->withOptions([
             'verify' => base_path('cacert.pem'),
-        ])->get($spotifyBaseURL . 'search/', [
+        ])->acceptJson()->get($spotifyBaseURL . 'search/', [
             'type' => $type,
             'q' => $query
         ]);

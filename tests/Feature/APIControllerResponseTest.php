@@ -16,7 +16,7 @@ class APIControllerResponseTest extends TestCase
      */
     public function test_given_valid_search_returns_good_json()
     {
-        $response = $this->get('/api/search?q=TestSearchString',);
+        $response = $this->get('/api?q=Tomorrow',);
         $response->assertJsonStructure([
             'tracks' => [
                 '*' => [
@@ -34,7 +34,7 @@ class APIControllerResponseTest extends TestCase
      */
     public function test_given_bad_format_returns_400()
     {
-        $response = $this->get('/api/search?wrongparam=Help%21',);
+        $response = $this->get('/api?wrongparam=Help%21',);
         $response->assertStatus(400);
     }
 }

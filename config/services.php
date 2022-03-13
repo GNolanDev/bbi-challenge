@@ -32,6 +32,7 @@ return [
     ],
 
     'spotify' => [
-        'bearertoken' => env('SPOTIFY_BEARER_TOKEN'),
+        'clientid' => env('SPOTIFY_CLIENT_ID'),
+        'clientsecret' => env('SPOTIFY_CLIENT_SECRET')
     ]
 ];
