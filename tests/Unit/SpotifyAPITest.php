@@ -24,9 +24,9 @@ class SpotifyAPITest extends TestCase
         $this->assertTrue(
             $outputDecoded &&
                 isset(
-                    $outputDecoded['tracks']['items']['0']['artists']['0']['name'],
-                    $outputDecoded['tracks']['items']['0']['duration_ms'],
-                    $outputDecoded['tracks']['items']['0']['name']
+                    $outputDecoded['tracks']['items'][0]['artists'][0]['name'],
+                    $outputDecoded['tracks']['items'][0]['duration_ms'],
+                    $outputDecoded['tracks']['items'][0]['name']
                 )
         );
     }

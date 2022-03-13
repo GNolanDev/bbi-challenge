@@ -23,16 +23,14 @@ class SpotifyReturnFormatterTest extends TestCase
         // convert to array and check for only required properties
         $outputDecoded = json_decode($outputJSON, true);
         $this->assertTrue(
-            $outputDecoded &&
-                isset(
-                    $outputDecoded['tracks']['0']['artist_name'],
-                    $outputDecoded['tracks']['0']['duration_ms'],
-                    $outputDecoded['tracks']['0']['track_name']
-                ) &&
-                count($outputDecoded['tracks']['0']) === 3 &&
-                $outputDecoded['tracks']['0']['artist_name'] === 'Phillipa Soo' &&
-                $outputDecoded['tracks']['0']['duration_ms'] === '249770' &&
-                $outputDecoded['tracks']['0']['track_name'] === 'Helpless'
+            isset(
+                $outputDecoded['tracks'][0]['artist_name'],
+                $outputDecoded['tracks'][0]['duration_ms'],
+                $outputDecoded['tracks'][0]['track_name']
+            ) && (count($outputDecoded['tracks'][0]) === 3)
+                && $outputDecoded['tracks'][0]['artist_name'] === 'Phillipa Soo'
+                && $outputDecoded['tracks'][0]['duration_ms'] === 249770
+                && $outputDecoded['tracks'][0]['track_name'] === 'Helpless'
         );
     }
 
