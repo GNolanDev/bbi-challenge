@@ -22,7 +22,12 @@ export default function SearchForm() {
     return (
         <form onSubmit={handleSubmit}>
             <SearchBox updateSearchTerm={updateSearchTerm} />
-            <input type="submit" dusk="submit-search" value="Search" />
+            <input
+                type="submit"
+                name="submit"
+                dusk="submit-search"
+                value="Search"
+            />
         </form>
     );
 }

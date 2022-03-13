@@ -13,8 +13,10 @@
     "devDependencies": {
         "@babel/preset-react": "^7.13.13",
         "@popperjs/core": "^2.10.2",
+        "@testing-library/dom": "^8.11.3",
         "@testing-library/jest-dom": "^5.16.2",
         "@testing-library/react": "^12.1.4",
+        "@testing-library/user-event": "^13.5.0",
         "axios": "^0.25",
         "babel-jest": "^27.5.1",
         "bootstrap": "^5.1.3",
