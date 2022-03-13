@@ -12,9 +12,18 @@ export const handlers = [
             return res(
                 ctx.status(200),
                 ctx.json({
-                    artist_name: "First Artist Name",
-                    duration_ms: "120000",
-                    track_name: "First Track Name",
+                    tracks: {
+                        0: {
+                            artist_name: "First Artist Name",
+                            duration_ms: "120000",
+                            track_name: "First Track Name",
+                        },
+                        1: {
+                            artist_name: "Second Artist Name",
+                            duration_ms: "190000",
+                            track_name: "Second Track Name",
+                        },
+                    },
                 })
             );
         }

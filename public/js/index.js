@@ -4338,7 +4338,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_SearchForm_SearchForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SearchForm/SearchForm */ "./resources/js/components/SearchForm/SearchForm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_ResultsList_ResultsList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ResultsList/ResultsList */ "./resources/js/components/ResultsList/ResultsList.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4354,6 +4355,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+
 function App() {
   /* hold search term as state in the app element to allow
    * for easy submission of search when button is pressed */
@@ -4361,13 +4365,43 @@ function App() {
       _useState2 = _slicedToArray(_useState, 2),
       searchterm = _useState2[0],
       setSearchterm = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      resultsObject = _useState4[0],
+      setResultsObject = _useState4[1];
   /* function initiates a request to the search API on submission*/
 
 
   var handleSubmit = function handleSubmit(e) {
-    e.preventDefault(); //
+    e.preventDefault();
+    fetch(window.location.protocol + "//" + window.location.host + "/api?q=" + searchterm, {
+      method: "GET",
+      headers: new Headers({
+        "Cache-Control": "max-age=0"
+      })
+    }).then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
 
-    console.log("search term is: ", searchterm);
+      return Promise.reject(new Error("bad response"));
+    }).then(function (responseJSON) {
+      var _responseJSON$tracks;
+
+      /* check validity of response - more validation
+       * could be done here */
+      var tracks = (_responseJSON$tracks = responseJSON["tracks"]) !== null && _responseJSON$tracks !== void 0 ? _responseJSON$tracks : false;
+
+      if (!(tracks && "0" in tracks && "artist_name" in tracks["0"] && "duration_ms" in tracks["0"] && "track_name" in tracks["0"])) {
+        return Promise.reject(new Error("bad response"));
+      }
+
+      return setResultsObject(tracks);
+    })["catch"](function (err) {
+      // fail quietly & empty the results list
+      return setResultsObject({});
+    }); // console.log("search term is: ", searchterm);
   }; // callback to pass to search box for keeping state updated
 
 
@@ -4375,10 +4409,61 @@ function App() {
     setSearchterm(e.currentTarget.value);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_SearchForm_SearchForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    updateSearchTerm: updateSearchTerm,
-    searchTerm: searchterm,
-    onSubmit: handleSubmit
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_SearchForm_SearchForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      updateSearchTerm: updateSearchTerm,
+      searchTerm: searchterm,
+      onSubmit: handleSubmit
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ResultsList_ResultsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      resultsObject: resultsObject
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/ResultsList/ResultsList.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/ResultsList/ResultsList.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ResultsList)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pretty-ms */ "./node_modules/pretty-ms/index.js");
+/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pretty_ms__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function ResultsList(props) {
+  // render a list of items for each value in the array passed by props
+  var listItems = [];
+
+  for (var track in props.resultsObject) {
+    listItems.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+      className: "result-item",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "track-name",
+        children: props.resultsObject[track]["track_name"]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "artist-name",
+        children: props.resultsObject[track]["artist_name"]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "track-duration",
+        children: pretty_ms__WEBPACK_IMPORTED_MODULE_1___default()(parseInt(props.resultsObject[track]["duration_ms"]))
+      })]
+    }, track));
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
+    id: "results-container",
+    children: listItems
   });
 }
 
@@ -4463,6 +4548,9 @@ __webpack_require__.r(__webpack_exports__);
 
  // use mock service worker if in development environment to test API calls
 
+/* note - all running on local machine is in this environment, so comment this
+ * out to run full end to end test of Laravel and React */
+
 
 
 if (true) {
@@ -4529,11 +4617,22 @@ var handlers = [// Handles a GET /api request
 msw__WEBPACK_IMPORTED_MODULE_0__.r.get("/api", function (req, res, ctx) {
   /* if query string is "TestSearchString", return a well formed JSON
    * response, otherwise return 400 (bad request) */
-  if (true) {
+  var queryString = req.url.searchParams.get("q");
+
+  if ("TestSearchString" === queryString) {
     return res(ctx.status(200), ctx.json({
-      artist_name: "First Artist Name",
-      duration_ms: "120000",
-      track_name: "First Track Name"
+      tracks: {
+        0: {
+          artist_name: "First Artist Name",
+          duration_ms: "120000",
+          track_name: "First Track Name"
+        },
+        1: {
+          artist_name: "Second Artist Name",
+          duration_ms: "190000",
+          track_name: "Second Track Name"
+        }
+      }
     }));
   }
 
@@ -14390,6 +14489,171 @@ function invariant(predicate, message) {
     }
 }
 exports.invariant = invariant;
+
+
+/***/ }),
+
+/***/ "./node_modules/parse-ms/index.js":
+/*!****************************************!*\
+  !*** ./node_modules/parse-ms/index.js ***!
+  \****************************************/
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = milliseconds => {
+	if (typeof milliseconds !== 'number') {
+		throw new TypeError('Expected a number');
+	}
+
+	const roundTowardsZero = milliseconds > 0 ? Math.floor : Math.ceil;
+
+	return {
+		days: roundTowardsZero(milliseconds / 86400000),
+		hours: roundTowardsZero(milliseconds / 3600000) % 24,
+		minutes: roundTowardsZero(milliseconds / 60000) % 60,
+		seconds: roundTowardsZero(milliseconds / 1000) % 60,
+		milliseconds: roundTowardsZero(milliseconds) % 1000,
+		microseconds: roundTowardsZero(milliseconds * 1000) % 1000,
+		nanoseconds: roundTowardsZero(milliseconds * 1e6) % 1000
+	};
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pretty-ms/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/pretty-ms/index.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+const parseMilliseconds = __webpack_require__(/*! parse-ms */ "./node_modules/parse-ms/index.js");
+
+const pluralize = (word, count) => count === 1 ? word : `${word}s`;
+
+const SECOND_ROUNDING_EPSILON = 0.0000001;
+
+module.exports = (milliseconds, options = {}) => {
+	if (!Number.isFinite(milliseconds)) {
+		throw new TypeError('Expected a finite number');
+	}
+
+	if (options.colonNotation) {
+		options.compact = false;
+		options.formatSubMilliseconds = false;
+		options.separateMilliseconds = false;
+		options.verbose = false;
+	}
+
+	if (options.compact) {
+		options.secondsDecimalDigits = 0;
+		options.millisecondsDecimalDigits = 0;
+	}
+
+	const result = [];
+
+	const floorDecimals = (value, decimalDigits) => {
+		const flooredInterimValue = Math.floor((value * (10 ** decimalDigits)) + SECOND_ROUNDING_EPSILON);
+		const flooredValue = Math.round(flooredInterimValue) / (10 ** decimalDigits);
+		return flooredValue.toFixed(decimalDigits);
+	};
+
+	const add = (value, long, short, valueString) => {
+		if ((result.length === 0 || !options.colonNotation) && value === 0 && !(options.colonNotation && short === 'm')) {
+			return;
+		}
+
+		valueString = (valueString || value || '0').toString();
+		let prefix;
+		let suffix;
+		if (options.colonNotation) {
+			prefix = result.length > 0 ? ':' : '';
+			suffix = '';
+			const wholeDigits = valueString.includes('.') ? valueString.split('.')[0].length : valueString.length;
+			const minLength = result.length > 0 ? 2 : 1;
+			valueString = '0'.repeat(Math.max(0, minLength - wholeDigits)) + valueString;
+		} else {
+			prefix = '';
+			suffix = options.verbose ? ' ' + pluralize(long, value) : short;
+		}
+
+		result.push(prefix + valueString + suffix);
+	};
+
+	const parsed = parseMilliseconds(milliseconds);
+
+	add(Math.trunc(parsed.days / 365), 'year', 'y');
+	add(parsed.days % 365, 'day', 'd');
+	add(parsed.hours, 'hour', 'h');
+	add(parsed.minutes, 'minute', 'm');
+
+	if (
+		options.separateMilliseconds ||
+		options.formatSubMilliseconds ||
+		(!options.colonNotation && milliseconds < 1000)
+	) {
+		add(parsed.seconds, 'second', 's');
+		if (options.formatSubMilliseconds) {
+			add(parsed.milliseconds, 'millisecond', 'ms');
+			add(parsed.microseconds, 'microsecond', 'µs');
+			add(parsed.nanoseconds, 'nanosecond', 'ns');
+		} else {
+			const millisecondsAndBelow =
+				parsed.milliseconds +
+				(parsed.microseconds / 1000) +
+				(parsed.nanoseconds / 1e6);
+
+			const millisecondsDecimalDigits =
+				typeof options.millisecondsDecimalDigits === 'number' ?
+					options.millisecondsDecimalDigits :
+					0;
+
+			const roundedMiliseconds = millisecondsAndBelow >= 1 ?
+				Math.round(millisecondsAndBelow) :
+				Math.ceil(millisecondsAndBelow);
+
+			const millisecondsString = millisecondsDecimalDigits ?
+				millisecondsAndBelow.toFixed(millisecondsDecimalDigits) :
+				roundedMiliseconds;
+
+			add(
+				Number.parseFloat(millisecondsString, 10),
+				'millisecond',
+				'ms',
+				millisecondsString
+			);
+		}
+	} else {
+		const seconds = (milliseconds / 1000) % 60;
+		const secondsDecimalDigits =
+			typeof options.secondsDecimalDigits === 'number' ?
+				options.secondsDecimalDigits :
+				1;
+		const secondsFixed = floorDecimals(seconds, secondsDecimalDigits);
+		const secondsString = options.keepDecimalsOnWholeSeconds ?
+			secondsFixed :
+			secondsFixed.replace(/\.0+$/, '');
+		add(Number.parseFloat(secondsString, 10), 'second', 's', secondsString);
+	}
+
+	if (result.length === 0) {
+		return '0' + (options.verbose ? ' milliseconds' : 'ms');
+	}
+
+	if (options.compact) {
+		return result[0];
+	}
+
+	if (typeof options.unitCount === 'number') {
+		const separator = options.colonNotation ? '' : ' ';
+		return result.slice(0, Math.max(options.unitCount, 1)).join(separator);
+	}
+
+	return options.colonNotation ? result.join('') : result.join(' ');
+};
 
 
 /***/ }),

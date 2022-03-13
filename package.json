@@ -42,5 +42,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "dependencies": {
+    "pretty-ms": "^7.0.1"
   }
 }
