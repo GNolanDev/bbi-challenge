@@ -8,7 +8,7 @@
     <title>Spotify Project</title>
     <script defer src="/js/manifest.js"></script>
     <script defer src="/js/vendor.js"></script>
-    <script defer src="/js/app.js"></script>
+    <script defer src="/js/index.js"></script>
 </head>
 
 <body>
