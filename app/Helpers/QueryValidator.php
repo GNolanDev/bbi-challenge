@@ -1,9 +1,17 @@
 <?php
 
+// validation of query strings - returns false if conditions not met
 class QueryValidator
 {
-    public function validate()
+    /**
+     * Add any validation rules here for search strings
+     * currently an arbitrary limit of 200 characters
+     *
+     * @param string $query
+     * @return string|false
+     */
+    public function validate($query)
     {
-        return false;
+        return strlen($query) <= 200 ? $query : false;
     }
 }
