@@ -16,7 +16,7 @@ class APIControllerResponseTest extends TestCase
      */
     public function test_given_valid_search_returns_good_json()
     {
-        $response = $this->get('/api/search?q=Help%21',);
+        $response = $this->get('/api/search?q=TestSearchString',);
         $response->assertJsonStructure([
             'tracks' => [
                 '*' => [

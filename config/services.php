@@ -31,4 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'spotify' => [
+        'bearertoken' => env('SPOTIFY_BEARER_TOKEN'),
+    ]
 ];

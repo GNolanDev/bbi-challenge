@@ -1,8 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 require(dirname(__DIR__, 2) . "\app\Helpers\SpotifyAPI.php");
 
@@ -18,8 +20,8 @@ class SpotifyAPITest extends TestCase
     public function test_given_valid_query_spotify_json_returned()
     {
         $spotifyAPI = new \SpotifyAPI;
-        $inputString = "Help!";
-        $outputJSON = $spotifyAPI->get($inputString);
+        $inputString = "Test";
+        $outputJSON = $spotifyAPI->getTracks($inputString);
         $outputDecoded = json_decode($outputJSON, true);
         $this->assertTrue(
             $outputDecoded &&
