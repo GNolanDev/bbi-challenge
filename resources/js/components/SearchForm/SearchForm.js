@@ -6,8 +6,12 @@ export default function SearchForm() {
      * for easy submission of search when button is pressed */
     const [searchterm, setSearchterm] = useState("");
 
+    /* function initiates a request to the search API on submission*/
     const handleSubmit = (e) => {
         e.preventDefault();
+        //
+        //
+        console.log("search term is: ", searchterm);
     };
 
     // callback to pass to search box for keeping state updated
@@ -15,5 +19,10 @@ export default function SearchForm() {
         setSearchterm(newSearchTerm);
     };
 
-    return <SearchBox updateSearchTerm={updateSearchTerm} />;
+    return (
+        <form onSubmit={handleSubmit}>
+            <SearchBox updateSearchTerm={updateSearchTerm} />
+            <input type="submit" dusk="submit-search" value="Search" />
+        </form>
+    );
 }

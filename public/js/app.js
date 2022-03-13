@@ -53,13 +53,17 @@ function SearchBox(props) {
       _useState2 = _slicedToArray(_useState, 2),
       searchterm = _useState2[0],
       setSearchterm = _useState2[1];
+  /* callback function sets the state of parent (form) component
+   * ready for use when search button is pressed */
+
 
   var updateSearchTerm = props.updateSearchTerm;
 
   var handleChange = function handleChange(e) {
     setSearchterm(e.currentTarget.value);
     updateSearchTerm(e.currentTarget.value);
-  };
+  }; // text box value set from state to ensure the input is 'controlled'
+
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
     type: "text",
@@ -100,22 +104,38 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function SearchForm() {
+  /* hold search term as state in the form element to allow
+   * for easy submission of search when button is pressed */
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       searchterm = _useState2[0],
       setSearchterm = _useState2[1];
+  /* function initiates a request to the search API on submission*/
+
 
   var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-  };
+    e.preventDefault(); //
+    //
+
+    console.log("search term is: ", searchterm);
+  }; // callback to pass to search box for keeping state updated
+
 
   var updateSearchTerm = function updateSearchTerm(newSearchTerm) {
     setSearchterm(newSearchTerm);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SearchBox_SearchBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    updateSearchTerm: updateSearchTerm
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
+    onSubmit: handleSubmit,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SearchBox_SearchBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      updateSearchTerm: updateSearchTerm
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+      type: "submit",
+      dusk: "submit-search",
+      value: "Search"
+    })]
   });
 }
 
