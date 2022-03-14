@@ -223,10 +223,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
- // use mock service worker if in development environment to test API calls
+ // Use mock service worker if in development environment to test API calls
 
 /* note - all running on local machine is in this environment, so comment this
  * out to run full end to end test of Laravel and React */
+
+/* \/ Uncomment this \/ for front end test with "npm test" */
 
 /* if (process.env.NODE_ENV === "development") {
     const { worker } = require("../../src/mocks/browser");
@@ -302,7 +304,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "form {\r\n    border: 1px dotted darkolivegreen;\r\n    border-radius: 4px;\r\n    display: flex;\r\n    justify-content: space-evenly;\r\n    padding: 12px 36px;\r\n}\r\n\r\ninput[type=\"submit\"] {\r\n    flex: 0 0 110px;\r\n    font-size: 1rem;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "form {\r\n    border: 1px dotted darkolivegreen;\r\n    border-radius: 4px;\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: space-evenly;\r\n    padding: 12px 36px;\r\n}\r\n\r\ninput[type=\"submit\"] {\r\n    flex: 0 0 110px;\r\n    font-size: 1rem;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
