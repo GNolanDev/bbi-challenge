@@ -20,7 +20,7 @@ class SpotifyAPITest extends TestCase
     public function test_given_valid_query_spotify_json_returned()
     {
         $spotifyAPI = new \SpotifyAPI;
-        $inputString = "Test";
+        $inputString = "Hello";
         $outputJSON = $spotifyAPI->getTracks($inputString);
         $outputDecoded = json_decode($outputJSON, true);
         $this->assertTrue(
