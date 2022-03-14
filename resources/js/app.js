@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SearchForm from "./components/SearchForm/SearchForm";
 import ResultsList from "./components/ResultsList/ResultsList";
 
@@ -7,12 +7,6 @@ export default function App() {
      * for easy submission of search when button is pressed */
     const [searchterm, setSearchterm] = useState("");
     const [resultsObject, setResultsObject] = useState({});
-
-    /* const controller = new AbortController();
-
-    useEffect(() => {
-        return () => controller.abort();
-    }); */
 
     /* function initiates a request to the search API on submission*/
     const handleSubmit = (e) => {
@@ -28,7 +22,6 @@ export default function App() {
                 headers: new Headers({
                     "Cache-Control": "max-age=0",
                 }),
-                // signal: controller.signal,
             }
         )
             .then((response) => {
