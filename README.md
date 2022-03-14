@@ -27,7 +27,7 @@ Tests are set up to run with:
 
 -   "php artisan dusk" for end to end testing (requires the server to be running)
 -   "php artisan test" for back end unit/feature testing
--   "npm test" for front end testing. Note - this depends on a mock service worker, which will intercept requests when in a DEV environment causing normal use to break. The code applying the msw is therefore commented out at the top of resources/js/index.js - uncomment before running the tests.
+-   "npm test" for front end testing. Note - this depends on a mock service worker, which will intercept requests when in a DEV environment causing normal use to break. The code applying the msw is therefore commented out at the top of resources/js/index.js - uncomment before running the 'npm' (jest) tests.
     Manual testing - type any reasonable search term in the box and click "Search" - a list of the most relevant tracks, with artist and duration should be displayed.
 
 # State & Improvements
@@ -38,15 +38,18 @@ This meets the brief outlined above:
 -   External API used to fetch data utilising OAuth 2.0 , built in methods used to encode/decode JSON data.
 -   Makes use of MVC basic pattern.
 -   React is used for the front end UI.
--   TDD ('Red->Green->Refactor). All tests were written first after installing required testing frameworks and dependencies, then parts of the application were built to make the tests pass. This is at the 'green' stage, and would benefit from some detailed review for refactoring, perhaps also making use of more built in functions or libraries. Time constraints due to learning a new framework meant the project has not yet been optimised. Similarly for further features/improvements.
-    Further steps:
--   Refactoring and simpliication as outlined above.
+-   TDD ('Red->Green->Refactor). All tests were written first after installing required testing frameworks and dependencies, then parts of the application were built to make the tests pass. This is at the 'green' stage, and would benefit from some detailed review for refactoring, perhaps also making use of more built in functions or libraries. Time constraints due to learning a new framework meant the project has not yet been optimised. Similarly for further features/improvements.  
+
+<!-- -->
+
+Further steps:
+-   Refactoring and simplification as outlined above.
 -   Adding a search type feature: this could be done by providing a dropdown input in the form, adding another query parameter to the client API request, adding more specific routing in api.php, adding functions to the SpotifyAPI and SpotifyReturnFormatter classes for handling the different data format. Conditional formatting could be used to render lists on the front end if different properties are returned.
 -   The UI could be made much more friendly on the eye, and the whole project could be reviewed for performance improvements.
 
 # Links
 
-Spotify ["Client Credentials Flow"](https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/).
+Spotify ["Client Credentials Flow"](https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/).   
 Laravel [guides and documentation](https://laravel.com/docs/9.x).
 
 ## Contact
