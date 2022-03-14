@@ -1,0 +1,12 @@
+form {
+    border: 1px dotted darkolivegreen;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 12px 36px;
+}
+
+input[type="submit"] {
+    flex: 0 0 110px;
+    font-size: 1rem;
+}

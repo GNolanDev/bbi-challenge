@@ -1,4 +1,5 @@
 import React from "react";
+import "./SearchBox.css";
 
 export default function SearchBox(props) {
     // text box value set from state to ensure the input is 'controlled'

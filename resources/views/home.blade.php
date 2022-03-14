@@ -11,8 +11,12 @@
     <script defer src="/js/index.js"></script>
 </head>
 
-<body>
-    <div id="App"></div>
+<body style="font-family:Arial">
+    <header>
+        <h1 style="font-size:2rem;letter-spacing:2px;text-align:center">Spotify Search</h1>
+    </header>
+    <div id="App">
+    </div>
 </body>
 
 </html>

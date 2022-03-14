@@ -1,5 +1,6 @@
 import React from "react";
 import prettyMilliseconds from "pretty-ms";
+import "./ResultsList.css";
 
 export default function ResultsList(props) {
     // render a list of items for each value in the array passed by props

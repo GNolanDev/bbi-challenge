@@ -1,5 +1,6 @@
 import React from "react";
 import SearchBox from "../SearchBox/SearchBox";
+import "./SearchForm.css";
 
 export default function SearchForm(props) {
     return (
