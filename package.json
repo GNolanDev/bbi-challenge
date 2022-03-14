@@ -36,6 +36,9 @@
         "roots": [
             "<rootDir>/resources/tests"
         ],
+        "moduleNameMapper": {
+          "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+        },
         "testEnvironment": "jsdom",
         "transform": {
             "^.+\\.(js|jsx)$": "babel-jest"
