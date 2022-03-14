@@ -36,7 +36,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function App() {
   /* hold search term as state in the app element to allow
    * for easy submission of search when button is pressed */
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("Search term"),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       searchterm = _useState2[0],
       setSearchterm = _useState2[1];

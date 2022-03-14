@@ -18,7 +18,7 @@ class AtLeastOneListItemDisplayedTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                ->value('@query-text', "TestSearchString")
+                ->type('@query-text', "Hello")
                 ->click('@submit-search')
                 ->waitFor('#results-container li')
                 ->assertVisible('#results-container li');
