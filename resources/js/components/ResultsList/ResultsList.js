@@ -8,7 +8,7 @@ export default function ResultsList(props) {
     const listItems = [];
     for (const track in props.resultsObject) {
         listItems.push(
-            <li className="result-item" key={track}>
+            <li className="result-item" key={track} title="track">
                 <div className="track-name">
                     {props.resultsObject[track]["track_name"]}
                 </div>

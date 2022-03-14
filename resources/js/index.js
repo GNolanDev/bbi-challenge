@@ -7,10 +7,10 @@ import App from "./App";
  * out to run full end to end test of Laravel and React */
 
 /* \/ Uncomment this \/ for front end test with "npm test" */
-/* if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
     const { worker } = require("../../src/mocks/browser");
     worker.start();
-} */
+}
 
 ReactDOM.render(
     <React.StrictMode>

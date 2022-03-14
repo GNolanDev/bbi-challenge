@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchForm from "./components/SearchForm/SearchForm";
 import ResultsList from "./components/ResultsList/ResultsList";
 
 export default function App() {
     /* hold search term as state in the app element to allow
      * for easy submission of search when button is pressed */
-    const [searchterm, setSearchterm] = useState("Search term");
+    const [searchterm, setSearchterm] = useState("");
     const [resultsObject, setResultsObject] = useState({});
+
+    /* const controller = new AbortController();
+
+    useEffect(() => {
+        return () => controller.abort();
+    }); */
 
     /* function initiates a request to the search API on submission*/
     const handleSubmit = (e) => {
@@ -22,6 +28,7 @@ export default function App() {
                 headers: new Headers({
                     "Cache-Control": "max-age=0",
                 }),
+                // signal: controller.signal,
             }
         )
             .then((response) => {
@@ -48,8 +55,7 @@ export default function App() {
                 return setResultsObject(tracks);
             })
             .catch((err) => {
-                // fail quietly & empty the results list
-                return setResultsObject({});
+                // fail quietly
             });
 
         // console.log("search term is: ", searchterm);

@@ -25,8 +25,10 @@ test("given track type input, correct elements are visible", async () => {
     userEvent.type(searchboxElement, testString);
     userEvent.selectOptions(trackSelectorElement, screen.getByText(type));
     userEvent.click(screen.getByRole("button", { name: /Search/ }));
-    // wait for results to be returned
-    screen.findByTitle(/Track/i).then(() => {
-        expect(screen.findByText(/First Track Name/)).toBeInTheDocument();
+    // wait for results to be returned & find 1st item in tracks list
+    screen.findAllByTitle(/track/i).then(() => {
+        expect(screen.getAllByTitle(/track/i))[0].toContainElement(
+            getByText(/First Track Name/)
+        );
     });
 });
