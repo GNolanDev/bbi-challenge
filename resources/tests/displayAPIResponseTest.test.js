@@ -1,6 +1,8 @@
 /* test to check a search term can be entered, submitted, and that
  * the response from the API can be received and displayed correctly
  * by checking for the first item details
+ * test depends on responses from mock service worker:
+ * see 'src/mocks/handlers.js' ^ uncomment block in 'index.js'
  * intention - to separate F/E and B/E test functions */
 
 import { render, screen } from "@testing-library/react";
