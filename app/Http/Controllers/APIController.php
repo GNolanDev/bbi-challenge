@@ -44,6 +44,6 @@ class APIController extends Controller
                 'Content-Type' => 'application/json'
             ]);
         }
-        return response("", 400);
+        return response("", 404);
     }
 }

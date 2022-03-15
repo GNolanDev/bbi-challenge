@@ -14,18 +14,22 @@ class SpotifyAPI
      * @param string $query
      * @return string|false
      */
-    public function getTracks($query)
+    public function getData($query, $searchType)
     {
         //URLs
         $spotifyBaseURL =
             "https://api.spotify.com/v1/";
         $spotifyAuthURL =
             "https://accounts.spotify.com/api/token";
-        $type = 'track';
         // required data for spotfy authorisation endpoint
         $data = [
             'grant_type' => 'client_credentials'
         ];
+
+        //only allow requests of the correct type
+        if (!in_array($searchType, ['artist', 'album', 'track'])) {
+            return false;
+        }
 
         // get access token from account.spotify
         $clientId = config('services.spotify.clientid');
@@ -45,7 +49,7 @@ class SpotifyAPI
         ])->withOptions([
             'verify' => base_path('cacert.pem'),
         ])->acceptJson()->get($spotifyBaseURL . 'search/', [
-            'type' => $type,
+            'type' => $searchType,
             'q' => $query
         ]);
         if ($response->successful() && $response->json()) {
