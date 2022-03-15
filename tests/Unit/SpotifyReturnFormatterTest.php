@@ -9,17 +9,17 @@ require(dirname(__DIR__, 2) . "\app\Helpers\SpotifyReturnFormatter.php");
 class SpotifyReturnFormatterTest extends TestCase
 {
     /**
-     * given a valid JSON string, returns JSON with only required properties
-     * (artist_name, duration_ms, track_name) ready for responding to client 
-     * request
+     * given a valid JSON string and "track" type, returns JSON with only
+     * required properties (artist_name, duration_ms, track_name) ready 
+     * for responding to client request
      *
      * @return void
      */
     public function test_given_valid_query_valid_json_returned()
     {
         $spotifyAPI = new \SpotifyReturnFormatter;
-        $sampleJSON = file_get_contents(dirname(__DIR__, 1) . '\sample_good.json');
-        $outputJSON = $spotifyAPI->format($sampleJSON);
+        $sampleJSON = file_get_contents(dirname(__DIR__, 1) . '\good_tracks_sample.json');
+        $outputJSON = $spotifyAPI->format($sampleJSON, "track");
         // convert to array and check for only required properties
         $outputDecoded = json_decode($outputJSON, true);
         $this->assertTrue(
@@ -42,8 +42,8 @@ class SpotifyReturnFormatterTest extends TestCase
     public function test_given_invalid_query_false_returned()
     {
         $spotifyAPI = new \SpotifyReturnFormatter;
-        $sampleJSON = file_get_contents(dirname(__DIR__, 1) . '\sample_bad.json');
-        $output = $spotifyAPI->format($sampleJSON);
+        $sampleJSON = file_get_contents(dirname(__DIR__, 1) . '\bad_tracks_sample.json');
+        $output = $spotifyAPI->format($sampleJSON, "track");
         // convert to array and check for only required properties
         $this->assertFalse($output);
     }
