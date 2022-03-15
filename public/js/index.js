@@ -38,19 +38,25 @@ function App() {
    * for easy submission of search when button is pressed */
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      searchterm = _useState2[0],
-      setSearchterm = _useState2[1];
+      searchTerm = _useState2[0],
+      setSearchTerm = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("track"),
       _useState4 = _slicedToArray(_useState3, 2),
-      resultsObject = _useState4[0],
-      setResultsObject = _useState4[1];
-  /* function initiates a request to the search API on submission*/
+      searchType = _useState4[0],
+      setSearchType = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState6 = _slicedToArray(_useState5, 2),
+      resultsObject = _useState6[0],
+      setResultsObject = _useState6[1];
+
+  var staticSearchType = "track";
+  /* function initiates a request to the search API on submission*/
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    fetch(window.location.protocol + "//" + window.location.host + "/api?q=" + searchterm, {
+    fetch(window.location.protocol + "//" + window.location.host + "/api/" + searchType + "?q=" + searchTerm, {
       method: "GET",
       headers: new Headers({
         "Cache-Control": "max-age=0"
@@ -62,35 +68,47 @@ function App() {
 
       return Promise.reject(new Error("bad response"));
     }).then(function (responseJSON) {
-      var _responseJSON$tracks;
+      var _responseJSON;
 
       /* check validity of response - more validation
-       * could be done here */
-      var tracks = (_responseJSON$tracks = responseJSON["tracks"]) !== null && _responseJSON$tracks !== void 0 ? _responseJSON$tracks : false;
+       * could be done here, particularly to reflect the different
+       * search types */
+      console.log("41" + responseJSON);
+      var items = (_responseJSON = responseJSON[searchType + "s"]) !== null && _responseJSON !== void 0 ? _responseJSON : false;
 
-      if (!(tracks && "0" in tracks && "artist_name" in tracks["0"] && "duration_ms" in tracks["0"] && "track_name" in tracks["0"])) {
+      if (!(items && "0" in items)) {
         return Promise.reject(new Error("bad response"));
       }
 
-      return setResultsObject(tracks);
-    })["catch"](function (err) {
-      // fail quietly & empty the results list
-      return setResultsObject({});
+      console.log("46" + items);
+      staticSearchType = searchType;
+      console.log("48" + staticSearchType);
+      return setResultsObject(items);
+    })["catch"](function (err) {// fail quietly
     }); // console.log("search term is: ", searchterm);
-  }; // callback to pass to search box for keeping state updated
+  }; // callbacks to pass to search box for keeping state updated
 
+
+  var updateSearchType = function updateSearchType(e) {
+    if (["album", "artist", "track"].includes(e.currentTarget.value)) {
+      setSearchType(e.currentTarget.value);
+    }
+  };
 
   var updateSearchTerm = function updateSearchTerm(e) {
-    setSearchterm(e.currentTarget.value);
+    setSearchTerm(e.currentTarget.value);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_SearchForm_SearchForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
       updateSearchTerm: updateSearchTerm,
-      searchTerm: searchterm,
+      updateSearchType: updateSearchType,
+      searchTerm: searchTerm,
+      searchType: searchType,
       onSubmit: handleSubmit
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ResultsList_ResultsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      resultsObject: resultsObject
+      resultsObject: resultsObject,
+      resultType: staticSearchType
     })]
   });
 }
@@ -108,9 +126,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ResultsList)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pretty-ms */ "./node_modules/pretty-ms/index.js");
-/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pretty_ms__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _ResultsList_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ResultsList.css */ "./resources/js/components/ResultsList/ResultsList.css");
+/* harmony import */ var _ResultsList_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ResultsList.css */ "./resources/js/components/ResultsList/ResultsList.css");
+/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pretty-ms */ "./node_modules/pretty-ms/index.js");
+/* harmony import */ var pretty_ms__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(pretty_ms__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -120,23 +138,58 @@ __webpack_require__.r(__webpack_exports__);
 function ResultsList(props) {
   // render a list of items for each value in the array passed by props
   var listItems = [];
-
-  for (var track in props.resultsObject) {
-    listItems.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-      className: "result-item",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "track-name",
-        children: props.resultsObject[track]["track_name"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "artist-name",
-        children: props.resultsObject[track]["artist_name"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "track-duration",
-        children: pretty_ms__WEBPACK_IMPORTED_MODULE_1___default()(parseInt(props.resultsObject[track]["duration_ms"]))
-      })]
-    }, track));
+  if (props.resultsObject[0]) if ("track_name" in props.resultsObject[0]) {
+    for (var item in props.resultsObject) {
+      listItems.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+        className: "result-item",
+        title: "track",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "track-name",
+          children: props.resultsObject[item]["track_name"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "artist-name",
+          children: props.resultsObject[item]["artist_name"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "track-duration",
+          children: pretty_ms__WEBPACK_IMPORTED_MODULE_2___default()(parseInt(props.resultsObject[item]["duration_ms"]))
+        })]
+      }, item));
+    }
+  } else if ("followers" in props.resultsObject[0]) {
+    for (var _item in props.resultsObject) {
+      listItems.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+        className: "result-item",
+        title: "artist",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "artist-name",
+          children: props.resultsObject[_item]["artist_name"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "artist-followers",
+          children: props.resultsObject[_item]["followers"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "artist-popularity",
+          children: props.resultsObject[_item]["popularity"]
+        })]
+      }, _item));
+    }
+  } else if ("album_name" in props.resultsObject[0]) {
+    for (var _item2 in props.resultsObject) {
+      listItems.push( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+        className: "result-item",
+        title: "album",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "album-name",
+          children: props.resultsObject[_item2]["album_name"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "artist-name",
+          children: props.resultsObject[_item2]["artist_name"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "release-date",
+          children: props.resultsObject[_item2]["release_date"]
+        })]
+      }, _item2));
+    }
   }
-
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
     id: "results-container",
     children: listItems
@@ -199,6 +252,25 @@ function SearchForm(props) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_SearchBox_SearchBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
       updateSearchTerm: props.updateSearchTerm,
       searchTerm: props.searchTerm
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+      htmlFor: "search-type-selector",
+      children: "search-type"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+      dusk: "query-type",
+      onChange: props.updateSearchType,
+      name: "search-type",
+      id: "search-type-selector",
+      value: props.searchType,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "track",
+        children: "track"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "artist",
+        children: "artist"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "album",
+        children: "album"
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       type: "submit",
       name: "submit",

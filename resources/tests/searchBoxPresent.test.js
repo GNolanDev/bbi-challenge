@@ -4,7 +4,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
-import App from "../js/App";
+import App from "../js/app";
 
 test("react dom basic test", () => {
     render(<App />);

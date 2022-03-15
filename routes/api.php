@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [APIController::class, 'search']);
+Route::get('/{searchType}', [APIController::class, 'search']);
 /* 
 // old template code
 function (Request $request) {
     return $request->user();
 }); */
+
+/* fallback option for any unrecognised api request types */
+Route::fallback(function () {
+    return response("", 404);
+});

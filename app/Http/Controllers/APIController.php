@@ -15,26 +15,35 @@ class APIController extends Controller
      * Return the limited track data from Spotify for a given 
      * search string
      * @param Request $request
+     * @param string $searchType
      * @return string
      */
-    public function search(Request $request)
+    public function search(Request $request, $searchType)
     {
         $queryString = $request->input('q');
         $queryValidator = new \QueryValidator;
         $spotifyAPI = new \SpotifyAPI;
         $spotifyReturnFormatter = new \SpotifyReturnFormatter;
+
+        // check search type is one of accepted methods
+        if (!in_array($searchType, ['artist', 'album', 'track'])) {
+            return response("", 404);
+        }
+
         $returnString = $spotifyReturnFormatter->format(
-            $spotifyAPI->getTracks(
+            $spotifyAPI->getData(
                 $queryValidator->validate(
                     $queryString
-                )
-            )
+                ),
+                $searchType
+            ),
+            $searchType
         );
         if ($returnString) {
             return response($returnString, 200, [
                 'Content-Type' => 'application/json'
             ]);
         }
-        return response("", 400);
+        return response("", 404);
     }
 }
