@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [APIController::class, 'search']);
+Route::get('/{searchType}', [APIController::class, 'search']);
 /* 
 // old template code
 function (Request $request) {
