@@ -5,7 +5,8 @@ import ResultsList from "./components/ResultsList/ResultsList";
 export default function App() {
     /* hold search term as state in the app element to allow
      * for easy submission of search when button is pressed */
-    const [searchterm, setSearchterm] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchType, setSearchType] = useState("track");
     const [resultsObject, setResultsObject] = useState({});
 
     /* function initiates a request to the search API on submission*/
@@ -15,8 +16,10 @@ export default function App() {
             window.location.protocol +
                 "//" +
                 window.location.host +
-                "/api?q=" +
-                searchterm,
+                "/api/" +
+                searchType +
+                "/?q=" +
+                searchTerm,
             {
                 method: "GET",
                 headers: new Headers({
@@ -54,16 +57,23 @@ export default function App() {
         // console.log("search term is: ", searchterm);
     };
 
-    // callback to pass to search box for keeping state updated
+    // callbacks to pass to search box for keeping state updated
+    const updateSearchType = (e) => {
+        if (["album", "artist", "track"].includes(e.currentTarget.value)) {
+            setSearchType(e.currentTarget.value);
+        }
+    };
+
     const updateSearchTerm = (e) => {
-        setSearchterm(e.currentTarget.value);
+        setSearchTerm(e.currentTarget.value);
     };
 
     return (
         <>
             <SearchForm
                 updateSearchTerm={updateSearchTerm}
-                searchTerm={searchterm}
+                updateSearchType={updateSearchType}
+                searchTerm={searchTerm}
                 onSubmit={handleSubmit}
             />
             <ResultsList resultsObject={resultsObject} />

@@ -9,6 +9,13 @@ export default function SearchForm(props) {
                 updateSearchTerm={props.updateSearchTerm}
                 searchTerm={props.searchTerm}
             />
+            <select dusk="query-type" onChange={props.updateSearchType}>
+                <option value="track" selected>
+                    track
+                </option>
+                <option value="artist">artist</option>
+                <option value="album">album</option>
+            </select>
             <input
                 type="submit"
                 name="submit"
