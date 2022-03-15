@@ -1,5 +1,6 @@
 // src/mocks/handlers.js
 import { rest } from "msw";
+import data from "./test-data";
 
 export const handlers = [
     // Handles a GET /api request
@@ -9,23 +10,7 @@ export const handlers = [
         const queryString = req.url.searchParams.get("q");
 
         if ("TestSearchString" === queryString) {
-            return res(
-                ctx.status(200),
-                ctx.json({
-                    tracks: {
-                        0: {
-                            artist_name: "First Artist Name",
-                            duration_ms: "120000",
-                            track_name: "First Track Name",
-                        },
-                        1: {
-                            artist_name: "Second Artist Name",
-                            duration_ms: "190000",
-                            track_name: "Second Track Name",
-                        },
-                    },
-                })
-            );
+            return res(ctx.status(200), ctx.json(data.track));
         }
         return res(ctx.status(400));
     }),

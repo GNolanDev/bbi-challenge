@@ -4370,11 +4370,6 @@ function App() {
       _useState4 = _slicedToArray(_useState3, 2),
       resultsObject = _useState4[0],
       setResultsObject = _useState4[1];
-  /* const controller = new AbortController();
-    useEffect(() => {
-      return () => controller.abort();
-  }); */
-
   /* function initiates a request to the search API on submission*/
 
 
@@ -4384,8 +4379,7 @@ function App() {
       method: "GET",
       headers: new Headers({
         "Cache-Control": "max-age=0"
-      }) // signal: controller.signal,
-
+      })
     }).then(function (response) {
       if (response.ok) {
         return response.json();
@@ -4623,34 +4617,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "handlers": () => (/* binding */ handlers)
 /* harmony export */ });
-/* harmony import */ var msw__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! msw */ "./node_modules/msw/lib/esm/rest-deps.js");
+/* harmony import */ var msw__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! msw */ "./node_modules/msw/lib/esm/rest-deps.js");
+/* harmony import */ var _test_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./test-data */ "./src/mocks/test-data.js");
 // src/mocks/handlers.js
 
+
 var handlers = [// Handles a GET /api request
-msw__WEBPACK_IMPORTED_MODULE_0__.r.get("/api", function (req, res, ctx) {
+msw__WEBPACK_IMPORTED_MODULE_1__.r.get("/api", function (req, res, ctx) {
   /* if query string is "TestSearchString", return a well formed JSON
    * response, otherwise return 400 (bad request) */
   var queryString = req.url.searchParams.get("q");
 
   if ("TestSearchString" === queryString) {
-    return res(ctx.status(200), ctx.json({
-      tracks: {
-        0: {
-          artist_name: "First Artist Name",
-          duration_ms: "120000",
-          track_name: "First Track Name"
-        },
-        1: {
-          artist_name: "Second Artist Name",
-          duration_ms: "190000",
-          track_name: "Second Track Name"
-        }
-      }
-    }));
+    return res(ctx.status(200), ctx.json(_test_data__WEBPACK_IMPORTED_MODULE_0__["default"].track));
   }
 
   return res(ctx.status(400));
 })];
+
+/***/ }),
+
+/***/ "./src/mocks/test-data.js":
+/*!********************************!*\
+  !*** ./src/mocks/test-data.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (data = {
+  track: {
+    tracks: {
+      0: {
+        artist_name: "First Artist Name",
+        duration_ms: "120000",
+        track_name: "First Track Name"
+      },
+      1: {
+        artist_name: "Second Artist Name",
+        duration_ms: "190000",
+        track_name: "Second Track Name"
+      }
+    }
+  }
+});
 
 /***/ }),
 
