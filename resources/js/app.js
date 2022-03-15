@@ -5,6 +5,7 @@ import ResultsList from "./components/ResultsList/ResultsList";
 export default function App() {
     /* hold search term as state in the app element to allow
      * for easy submission of search when button is pressed */
+
     const [searchTerm, setSearchTerm] = useState("");
     const [searchType, setSearchType] = useState("track");
     const [resultsObject, setResultsObject] = useState({});
