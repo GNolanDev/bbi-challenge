@@ -8,6 +8,7 @@ export default function App() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchType, setSearchType] = useState("track");
     const [resultsObject, setResultsObject] = useState({});
+    let staticSearchType = "track";
 
     /* function initiates a request to the search API on submission*/
     const handleSubmit = (e) => {
@@ -35,20 +36,17 @@ export default function App() {
             })
             .then((responseJSON) => {
                 /* check validity of response - more validation
-                 * could be done here */
-                const tracks = responseJSON["tracks"] ?? false;
-                if (
-                    !(
-                        tracks &&
-                        "0" in tracks &&
-                        "artist_name" in tracks["0"] &&
-                        "duration_ms" in tracks["0"] &&
-                        "track_name" in tracks["0"]
-                    )
-                ) {
+                 * could be done here, particularly to reflect the different
+                 * search types */
+                console.log("41" + responseJSON);
+                const items = responseJSON[searchType + "s"] ?? false;
+                if (!(items && "0" in items)) {
                     return Promise.reject(new Error("bad response"));
                 }
-                return setResultsObject(tracks);
+                console.log("46" + items);
+                staticSearchType = searchType;
+                console.log("48" + staticSearchType);
+                return setResultsObject(items);
             })
             .catch((err) => {
                 // fail quietly
@@ -77,7 +75,10 @@ export default function App() {
                 searchType={searchType}
                 onSubmit={handleSubmit}
             />
-            <ResultsList resultsObject={resultsObject} />
+            <ResultsList
+                resultsObject={resultsObject}
+                resultType={staticSearchType}
+            />
         </>
     );
 }

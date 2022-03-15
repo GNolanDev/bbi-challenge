@@ -9,10 +9,12 @@ export default function SearchForm(props) {
                 updateSearchTerm={props.updateSearchTerm}
                 searchTerm={props.searchTerm}
             />
+            <label htmlFor="search-type-selector">search-type</label>
             <select
                 dusk="query-type"
                 onChange={props.updateSearchType}
                 name="search-type"
+                id="search-type-selector"
                 value={props.searchType}
             >
                 <option value="track">track</option>
