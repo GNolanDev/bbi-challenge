@@ -1,4 +1,4 @@
-export default data = {
+const data = {
     track: {
         tracks: {
             0: {
@@ -42,3 +42,5 @@ export default data = {
         },
     },
 };
+
+export default data;

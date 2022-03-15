@@ -4363,19 +4363,24 @@ function App() {
    * for easy submission of search when button is pressed */
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      searchterm = _useState2[0],
-      setSearchterm = _useState2[1];
+      searchTerm = _useState2[0],
+      setSearchTerm = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("track"),
       _useState4 = _slicedToArray(_useState3, 2),
-      resultsObject = _useState4[0],
-      setResultsObject = _useState4[1];
+      searchType = _useState4[0],
+      setSearchType = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState6 = _slicedToArray(_useState5, 2),
+      resultsObject = _useState6[0],
+      setResultsObject = _useState6[1];
   /* function initiates a request to the search API on submission*/
 
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    fetch(window.location.protocol + "//" + window.location.host + "/api?q=" + searchterm, {
+    fetch(window.location.protocol + "//" + window.location.host + "/api/" + searchType + "?q=" + searchTerm, {
       method: "GET",
       headers: new Headers({
         "Cache-Control": "max-age=0"
@@ -4400,17 +4405,25 @@ function App() {
       return setResultsObject(tracks);
     })["catch"](function (err) {// fail quietly
     }); // console.log("search term is: ", searchterm);
-  }; // callback to pass to search box for keeping state updated
+  }; // callbacks to pass to search box for keeping state updated
 
+
+  var updateSearchType = function updateSearchType(e) {
+    if (["album", "artist", "track"].includes(e.currentTarget.value)) {
+      setSearchType(e.currentTarget.value);
+    }
+  };
 
   var updateSearchTerm = function updateSearchTerm(e) {
-    setSearchterm(e.currentTarget.value);
+    setSearchTerm(e.currentTarget.value);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_SearchForm_SearchForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
       updateSearchTerm: updateSearchTerm,
-      searchTerm: searchterm,
+      updateSearchType: updateSearchType,
+      searchTerm: searchTerm,
+      searchType: searchType,
       onSubmit: handleSubmit
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ResultsList_ResultsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
       resultsObject: resultsObject
@@ -4526,6 +4539,21 @@ function SearchForm(props) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_SearchBox_SearchBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
       updateSearchTerm: props.updateSearchTerm,
       searchTerm: props.searchTerm
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
+      dusk: "query-type",
+      onChange: props.updateSearchType,
+      name: "search-type",
+      value: props.searchType,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "track",
+        children: "track"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "artist",
+        children: "artist"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "album",
+        children: "album"
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       type: "submit",
       name: "submit",
@@ -4623,16 +4651,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var handlers = [// Handles a GET /api request
-msw__WEBPACK_IMPORTED_MODULE_1__.r.get("/api", function (req, res, ctx) {
+msw__WEBPACK_IMPORTED_MODULE_1__.r.get("/api/:searchType", function (req, res, ctx) {
+  var _res;
+
   /* if query string is "TestSearchString", return a well formed JSON
    * response, otherwise return 400 (bad request) */
   var queryString = req.url.searchParams.get("q");
+  var searchType = req.params.searchType;
+  console.log(queryString, searchType);
+  /* filter request, respond with 404 if URL is incorrect or search type is not one of the available methods -  TODO: extract available methods to separate file? */
 
-  if ("TestSearchString" === queryString) {
-    return res(ctx.status(200), ctx.json(_test_data__WEBPACK_IMPORTED_MODULE_0__["default"].track));
+  if (!queryString || "TestSearchString" !== queryString || !["track", "artist", "album"].includes(searchType)) {
+    return res(ctx.status(404));
   }
 
-  return res(ctx.status(400));
+  console.log(_test_data__WEBPACK_IMPORTED_MODULE_0__["default"][searchType]); // return the appropriate data from test-data.js
+
+  return (_res = res(ctx.status(200), ctx.json(_test_data__WEBPACK_IMPORTED_MODULE_0__["default"][searchType]))) !== null && _res !== void 0 ? _res : res(ctx.status(404));
 })];
 
 /***/ }),
@@ -4648,7 +4683,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (data = {
+var data = {
   track: {
     tracks: {
       0: {
@@ -4662,8 +4697,37 @@ __webpack_require__.r(__webpack_exports__);
         track_name: "Second Track Name"
       }
     }
+  },
+  album: {
+    albums: {
+      0: {
+        album_name: "First Album Name",
+        artist_name: "First Album Artist Name",
+        release_date: "1981-11-05"
+      },
+      1: {
+        album_name: "Second Album Name",
+        artist_name: "Second Album Artist Name",
+        release_date: "1982-11-05"
+      }
+    }
+  },
+  artist: {
+    artists: {
+      0: {
+        artist_name: "First Artist Specific Name",
+        followers: "100000",
+        popularity: "70"
+      },
+      1: {
+        artist_name: "Second Artist Specific Name",
+        followers: "200000",
+        popularity: "80"
+      }
+    }
   }
-});
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (data);
 
 /***/ }),
 

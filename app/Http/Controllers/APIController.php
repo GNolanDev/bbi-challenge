@@ -15,6 +15,7 @@ class APIController extends Controller
      * Return the limited track data from Spotify for a given 
      * search string
      * @param Request $request
+     * @param string $searchType
      * @return string
      */
     public function search(Request $request)

@@ -18,7 +18,7 @@ export default function App() {
                 window.location.host +
                 "/api/" +
                 searchType +
-                "/?q=" +
+                "?q=" +
                 searchTerm,
             {
                 method: "GET",
@@ -74,6 +74,7 @@ export default function App() {
                 updateSearchTerm={updateSearchTerm}
                 updateSearchType={updateSearchType}
                 searchTerm={searchTerm}
+                searchType={searchType}
                 onSubmit={handleSubmit}
             />
             <ResultsList resultsObject={resultsObject} />

@@ -21,3 +21,8 @@ Route::get('/', [APIController::class, 'search']);
 function (Request $request) {
     return $request->user();
 }); */
+
+/* fallback option for any unrecognised api request types */
+Route::fallback(function () {
+    return response("", 404);
+});
